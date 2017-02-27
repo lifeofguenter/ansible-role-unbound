@@ -36,7 +36,7 @@
     content: |
       [unbound*]
       user root
-      env.statefile /var/munin/plugin-state/unbound-state
+      env.statefile /var/lib/munin-node/plugin-state/root/unbound.state
       env.unbound_conf /usr/etc/unbound/unbound.conf
       env.unbound_control /usr/sbin/unbound-control
       env.spoof_warn 1000
