@@ -32,6 +32,7 @@ case "$1" in
         log_daemon_msg "Starting $DESC" "$NAME"
         #$HELPER chroot_setup
         #$HELPER root_trust_anchor_update 2>&1 | logger -p daemon.info -t unbound-anchor
+        /usr/sbin/unbound-anchor -a /var/lib/unbound/root.key
         if start-stop-daemon --start --quiet --oknodo --pidfile $PIDFILE --name $NAME --startas $DAEMON -- $DAEMON_OPTS; then
             #$HELPER resolvconf_start
             log_end_msg 0
