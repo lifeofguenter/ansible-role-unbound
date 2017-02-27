@@ -6,7 +6,7 @@
   ignore_errors: yes
 
 - include: unbound.yml
-  when: unbound_current.rc != 0 or unbound_current.stderr.find("Version {{ unbound_version }}") == -1
+  when: unbound_current.stderr.find("Version {{ unbound_version }}") == -1
 
 - include: config.yml
 
