@@ -1,12 +1,13 @@
 ---
 
+# this does not work
 - name: get current unbound version
   command: /usr/sbin/unbound -h
   register: unbound_current
   ignore_errors: yes
 
 - include: unbound.yml
-  when: unbound_current.stderr is not defined or unbound_current.stderr.find("Version {{ unbound_version }}") == -1
+  when: unbound_current.stdout is not defined or unbound_current.stdout.find("Version {{ unbound_version }}") == -1
 
 - include: config.yml
 
