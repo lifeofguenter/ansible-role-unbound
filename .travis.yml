@@ -24,6 +24,8 @@ install:
 script:
   - "ansible-playbook tests/test.yml -i tests/inventory --connection=local"  
   - "ansible-playbook tests/test.yml -i tests/inventory --connection=local"
+  - /usr/sbin/unbound-checkconf
+  - cat /etc/unbound/unbound.conf
   - /usr/sbin/unbound -h
   - sudo tail -n 100 /var/log/syslog
   - pidof unbound
