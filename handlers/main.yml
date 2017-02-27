@@ -1,14 +1,14 @@
 ---
 
+- name: reload_systemd
+  command: systemctl daemon-reload
+  become: yes
+
 - name: restart_unbound
   service:
     name: unbound
     state: restarted
     enabled: yes
-  become: yes
-
-- name: reload_systemd
-  command: systemctl daemon-reload
   become: yes
 
 - name: restart_munin_node
