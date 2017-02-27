@@ -1,5 +1,28 @@
 ---
 
+- name: create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: nobody
+    group: nogroup
+  with_items:
+    - /var/lib/unbound/
+    - /etc/unbound/
+  become: yes
+
+- name: check if control-keys exists
+  stat:
+    path: /etc/unbound/unbound_control.key
+  register: unbound_control_keys
+
+- name: create control keys
+  command: /usr/sbin/unbound-control-setup
+  when: unbound_control_keys.stat.exists == False
+  become_user: nobody
+  become: yes
+
 - name: add unbound.conf
   template:
     src: unbound.conf.j2
@@ -14,16 +37,4 @@
     dest: /var/lib/unbound/named.cache
     mode: 0644
   become_user: nobody
-  become: yes
-
-- name: add systemd files
-  copy:
-    src: "{{ item }}.ini"
-    dest: /lib/systemd/system/{{ item }}
-    mode: 0644
-  with_items:
-    - unbound-anchor.service
-    - unbound-anchor.timer
-    - unbound.service
-  notify: reload_systemd
   become: yes

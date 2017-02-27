@@ -1,0 +1,13 @@
+---
+
+- name: add systemd files
+  copy:
+    src: "{{ item }}.ini"
+    dest: /lib/systemd/system/{{ item }}
+    mode: 0644
+  with_items:
+    - unbound-anchor.service
+    - unbound-anchor.timer
+    - unbound.service
+  notify: reload_systemd
+  become: yes

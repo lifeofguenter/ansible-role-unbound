@@ -6,9 +6,20 @@
   ignore_errors: yes
 
 - include: unbound.yml
-  when: unbound_current.rc != 0 or unbound_current.stdout.find("Version {{ unbound_version }}") == -1
+  when: unbound_current.rc != 0 or unbound_current.stderr.find("Version {{ unbound_version }}") == -1
 
 - include: config.yml
+
+- name: check for systemd
+  command: systemctl --version
+  register: systemctl_version
+  ignore_errors: yes
+
+- include: systemd.yml
+  when: systemctl_version.rc == 0
+
+- include: sysinitv.yml
+  when: systemctl_version.rc != 0
 
 - name: check if munin-node is installed
   command: dpkg -L munin-node
