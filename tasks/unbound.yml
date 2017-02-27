@@ -28,11 +28,14 @@
 
 - name: create directories
   file:
-    path: /var/lib/unbound/
+    path: "{{ item }}"
     state: directory
     mode: 0755
     owner: nobody
     group: nogroup
+  with_items:
+    - /var/lib/unbound/
+    - /etc/unbound/
   become: yes
 
 - name: check if control-keys exists
