@@ -42,11 +42,11 @@ server:
 
   outgoing-range: 4096
   num-queries-per-thread: 2048
-  num-threads: {{ ansible_processor_vcpus }}
-  msg-cache-slabs: {{ ansible_processor_vcpus }}
-  rrset-cache-slabs: {{ ansible_processor_vcpus }}
-  infra-cache-slabs: {{ ansible_processor_vcpus }}
-  key-cache-slabs: {{ ansible_processor_vcpus }}
+  num-threads: {{ unbound_num_threads }}
+  msg-cache-slabs: {{ unbound_num_threads }}
+  rrset-cache-slabs: {{ unbound_num_threads }}
+  infra-cache-slabs: {{ unbound_num_threads }}
+  key-cache-slabs: {{ unbound_num_threads }}
 
   rrset-cache-size: {{ (unbound_memory/3*2)|int|abs }}m
   msg-cache-size: {{ (unbound_memory/3)|int|abs }}m

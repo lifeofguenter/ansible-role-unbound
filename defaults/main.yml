@@ -10,3 +10,5 @@ unbound_interfacess:
 unbound_listen_port: 53
 
 unbound_memory: 384
+
+unbound_num_threads: "{{ ansible_processor_vcpus }}"
