@@ -6,4 +6,6 @@ unbound_build: 1
 
 unbound_interfacess: '["127.0.0.1"]'
 
+unbound_listen_port: 53
+
 unbound_memory: 384

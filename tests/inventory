@@ -1,1 +1,1 @@
-localhost
+localhost unbound_listen_port=5353

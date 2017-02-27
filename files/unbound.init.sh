@@ -1,139 +1,87 @@
 #!/bin/sh
-#
-# unbound	This shell script takes care of starting and stopping
-#		unbound (DNS server).
-#
-# chkconfig:   - 14 86
-# description:	unbound is a Domain Name Server (DNS) \
-#		that is used to resolve host names to IP addresses.
 
 ### BEGIN INIT INFO
-# Provides: $named unbound
-# Required-Start: $network $local_fs
-# Required-Stop: $network $local_fs
-# Should-Start: $syslog
-# Should-Stop: $syslog
-# Short-Description: unbound recursive Domain Name Server.
-# Description:  unbound is a Domain Name Server (DNS) 
-#		that is used to resolve host names to IP addresses.
+# Provides:          unbound
+# Required-Start:    $network $remote_fs $syslog
+# Required-Stop:     $network $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
 ### END INIT INFO
+# pidfile: /run/unbound.pid
 
-# Source function library.
-. /etc/rc.d/init.d/functions
+NAME="unbound"
+DESC="DNS server"
+DAEMON="/usr/sbin/unbound"
+PIDFILE="/run/unbound.pid"
 
-exec="/usr/sbin/unbound"
-prog="unbound"
-config="/var/unbound/unbound.conf"
-pidfile="/var/unbound/unbound.pid"
-rootdir="/var/unbound"
+HELPER="/usr/lib/unbound/package-helper"
 
-[ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
+test -x $DAEMON || exit 0
 
-lockfile=/var/lock/subsys/$prog
+. /lib/lsb/init-functions
 
-start() {
-    [ -x $exec ] || exit 5
-    [ -f $config ] || exit 6
-    echo -n $"Starting $prog: "
+# Override this variable by editing or creating /etc/default/unbound.
+DAEMON_OPTS=""
 
-    # setup root jail
-    if [ -s /etc/localtime ]; then 
-	[ -d ${rootdir}/etc ] || mkdir -p ${rootdir}/etc ;
-	if [ ! -e ${rootdir}/etc/localtime ] || /usr/bin/cmp -s /etc/localtime ${rootdir}/etc/localtime; then
-	    cp -fp /etc/localtime ${rootdir}/etc/localtime
-	fi;
-    fi;
-    if [ -s /etc/resolv.conf ]; then
-	[ -d ${rootdir}/etc ] || mkdir -p ${rootdir}/etc ;
-	if [ ! -e ${rootdir}/etc/resolv.conf ] || /usr/bin/cmp -s /etc/resolv.conf ${rootdir}/etc/resolv.conf; then
-	    cp -fp /etc/resolv.conf ${rootdir}/etc/resolv.conf
-	fi;
-    fi;
-    if ! egrep -q '^/[^[:space:]]+[[:space:]]+'${rootdir}'/dev/log' /proc/mounts; then
-	[ -d ${rootdir}/dev ] || mkdir -p ${rootdir}/dev ;
-	[ -e ${rootdir}/dev/log ] || touch ${rootdir}/dev/log
-	mount --bind -n /dev/log ${rootdir}/dev/log >/dev/null 2>&1;
-    fi;
-    if ! egrep -q '^/[^[:space:]]+[[:space:]]+'${rootdir}'/dev/random' /proc/mounts; then
-	[ -d ${rootdir}/dev ] || mkdir -p ${rootdir}/dev ;
-	[ -e ${rootdir}/dev/random ] || touch ${rootdir}/dev/random
-	mount --bind -n /dev/random ${rootdir}/dev/random >/dev/null 2>&1;
-    fi;
-
-    # if not running, start it up here
-    daemon $exec
-    retval=$?
-    echo
-    [ $retval -eq 0 ] && touch $lockfile
-    return $retval
-}
-
-stop() {
-    echo -n $"Stopping $prog: "
-    # stop it here, often "killproc $prog"
-    killproc -p $pidfile $prog
-    retval=$?
-    echo
-    [ $retval -eq 0 ] && rm -f $lockfile
-    if egrep -q '^/[^[:space:]]+[[:space:]]+'${rootdir}'/dev/log' /proc/mounts; then
-	umount ${rootdir}/dev/log >/dev/null 2>&1
-    fi;
-    if egrep -q '^/[^[:space:]]+[[:space:]]+'${rootdir}'/dev/random' /proc/mounts; then
-	umount ${rootdir}/dev/random >/dev/null 2>&1
-    fi;
-    return $retval
-}
-
-restart() {
-    stop
-    start
-}
-
-reload() {
-    kill -HUP `cat $pidfile`
-}
-
-force_reload() {
-    restart
-}
-
-rh_status() {
-    # run checks to determine if the service is running or use generic status
-    status -p $pidfile $prog
-}
-
-rh_status_q() {
-    rh_status -p $pidfile >/dev/null 2>&1
-}
+if [ -f /etc/default/unbound ]; then
+    . /etc/default/unbound
+fi
 
 case "$1" in
     start)
-        rh_status_q && exit 0
-        $1
+        log_daemon_msg "Starting $DESC" "$NAME"
+        #$HELPER chroot_setup
+        #$HELPER root_trust_anchor_update 2>&1 | logger -p daemon.info -t unbound-anchor
+        if start-stop-daemon --start --quiet --oknodo --pidfile $PIDFILE --name $NAME --startas $DAEMON -- $DAEMON_OPTS; then
+            #$HELPER resolvconf_start
+            log_end_msg 0
+        else
+            log_end_msg 1
+        fi
         ;;
+
     stop)
-        rh_status_q || exit 0
-        $1
+        log_daemon_msg "Stopping $DESC" "$NAME"
+        if start-stop-daemon --stop --quiet --oknodo --pidfile $PIDFILE --name $NAME --retry 5; then
+            #$HELPER resolvconf_stop
+            log_end_msg 0
+        else
+            log_end_msg 1
+        fi
         ;;
-    restart)
-        $1
+
+    restart|force-reload)
+        log_daemon_msg "Restarting $DESC" "$NAME"
+        start-stop-daemon --stop --quiet --pidfile $PIDFILE --name $NAME --retry 5
+        #$HELPER resolvconf_stop
+        if start-stop-daemon --start --quiet --oknodo --pidfile $PIDFILE --name $NAME --startas $DAEMON -- $DAEMON_OPTS; then
+            #$HELPER chroot_setup
+            #$HELPER resolvconf_start
+            log_end_msg 0
+        else
+            log_end_msg 1
+        fi
         ;;
+
     reload)
-        rh_status_q || exit 7
-        $1
+        log_daemon_msg "Reloading $DESC" "$NAME"
+        if start-stop-daemon --stop --pidfile $PIDFILE --signal 1; then
+            #$HELPER chroot_setup
+            log_end_msg 0
+        else
+            log_end_msg 1
+        fi
         ;;
-    force-reload)
-        force_reload
-        ;;
+
     status)
-        rh_status
+        status_of_proc -p $PIDFILE $DAEMON $NAME && exit 0 || exit $?
         ;;
-    condrestart|try-restart)
-        rh_status_q || exit 0
-        restart
-        ;;
+
     *)
-        echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload}"
-        exit 2
+        N=/etc/init.d/$NAME
+        echo "Usage: $N {start|stop|restart|status|reload|force-reload}" >&2
+        exit 1
+        ;;
 esac
-exit $?
+
+exit 0

@@ -9,6 +9,7 @@ addons:
   apt:
     packages:
     - python-pip
+    - dnsutils
 
 install:
   # Install ansible
@@ -24,6 +25,7 @@ script:
   - "ansible-playbook tests/test.yml -i tests/inventory --connection=local"  
   - "ansible-playbook tests/test.yml -i tests/inventory --connection=local"
   - /usr/sbin/unbound -h
+  - dig -p 5353 foobar-1-1-1-1.pseudo.host @127.0.0.1
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

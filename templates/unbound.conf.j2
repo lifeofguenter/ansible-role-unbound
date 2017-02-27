@@ -4,7 +4,7 @@ server:
   {% for unbound_interface in unbound_interfacess %}
   interface: {{ unbound_interface }}
   {% endfor %}
-  port: 53
+  port: {{ unbound_listen_port }}
 
   do-ip4: yes
   do-ip6: no

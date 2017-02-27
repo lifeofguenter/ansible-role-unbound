@@ -1,3 +1,10 @@
 ---
 
 # todo!
+
+- name: add unbound.init
+  copy:
+    src: unbound.init.sh
+    dest: /etc/init.d/unbound
+    mode: "a+x"
+  become: yes
