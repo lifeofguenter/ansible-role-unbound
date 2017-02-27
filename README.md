@@ -11,7 +11,7 @@ _None_
 ## Role Variables
 
 ```
-unbound_interfacess: '["127.0.0.1", "127.0.0.2"]'
+unbound_interfacess: ["127.0.0.1", "127.0.0.2"]
 ```
 
 ```
