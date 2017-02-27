@@ -1,0 +1,47 @@
+---
+
+- name: dependencies
+  apt:
+    name: python-mysqldb
+    cache_valid_time: 3600
+    state: present
+  with_items:
+    - libevent-2.0-5
+    - libssl1.0.0
+    - libexpat1
+  become: yes
+
+- name: Include Debian specifics
+  include: packages-debian.yml
+  when: ansible_distribution == 'Debian'
+
+- name: fetch .deb
+  get_url:
+    url: https://ftp.weheartwebsites.de/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }}/unbound_{{ unbound_version }}-{{ unbound_build }}_amd64.deb
+    dest: /tmp/unbound_{{ unbound_version }}-{{ unbound_build }}_amd64.deb
+
+- name: install .deb
+  apt:
+    deb: /tmp/unbound_{{ unbound_version }}-{{ unbound_build }}_amd64.deb
+  notify: restart_unbound
+  become: yes
+
+- name: create directories
+  file:
+    path: /var/lib/unbound/
+    state: directory
+    mode: 0755
+    owner: nobody
+    group: nogroup
+  become: yes
+
+- name: check if control-keys exists
+  stat:
+    path: /etc/unbound/unbound_control.key
+  register: unbound_control_keys
+
+- name: create control keys
+  command: /usr/sbin/unbound-control-setup
+  when: unbound_control_keys.stat.exists == False
+  become_user: nobody
+  become: yes

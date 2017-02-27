@@ -1,0 +1,82 @@
+server:
+  verbosity: 0
+
+  {% for unbound_interface in unbound_interfacess %}
+  interface: {{ unbound_interface }}
+  {% endfor %}
+  port: 53
+
+  do-ip4: yes
+  do-ip6: no
+  do-udp: yes
+  do-tcp: yes
+
+  use-systemd: no
+  do-daemonize: yes
+
+  username: "nobody"
+  directory: "/etc/unbound"
+  chroot: ""
+  use-syslog: yes
+  pidfile: "/run/unbound.pid"
+
+  # security
+  access-control: 127.0.0.0/8 allow
+  access-control: 10.0.0.0/8 allow
+  access-control: 172.16.0.0/12 allow
+  access-control: 192.168.0.0/16 allow
+
+  hide-identity: yes
+  hide-version: yes
+
+  harden-large-queries: yes
+  harden-glue: yes
+  harden-short-bufsize: yes
+  harden-dnssec-stripped: yes
+  harden-below-nxdomain: yes
+  harden-algo-downgrade: yes
+
+  # performance
+  prefetch: yes
+  prefetch-key: yes
+
+  outgoing-range: 4096
+  num-queries-per-thread: 2048
+  num-threads: {{ ansible_processor_vcpus }}
+  msg-cache-slabs: {{ ansible_processor_vcpus }}
+  rrset-cache-slabs: {{ ansible_processor_vcpus }}
+  infra-cache-slabs: {{ ansible_processor_vcpus }}
+  key-cache-slabs: {{ ansible_processor_vcpus }}
+
+  rrset-cache-size: {{ (unbound_memory/3*2)|int|abs }}m
+  msg-cache-size: {{ (unbound_memory/3)|int|abs }}m
+
+  so-rcvbuf: 4m
+  so-sndbuf: 4m
+  so-reuseport: yes
+
+  cache-min-ttl: 60
+  cache-max-ttl: 86400
+  cache-max-negative-ttl: 300
+
+  # misc
+  rrset-roundrobin: no
+
+  # get one from https://www.internic.net/domain/named.cache
+  root-hints: "/var/lib/unbound/named.cache"
+  # unbound-anchor
+  auto-trust-anchor-file: "/var/lib/unbound/root.key"
+
+  # stats
+  statistics-interval: 0
+  statistics-cumulative: no
+  extended-statistics: yes
+
+remote-control:
+  control-enable: yes
+  control-interface: 127.0.0.1
+  control-use-cert: yes
+  server-key-file: "/etc/unbound/unbound_server.key"
+  server-cert-file: "/etc/unbound/unbound_server.pem"
+  control-key-file: "/etc/unbound/unbound_control.key"
+  control-cert-file: "/etc/unbound/unbound_control.pem"

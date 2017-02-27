@@ -1,0 +1,9 @@
+---
+
+unbound_version: 1.6.1
+
+unbound_build: 1
+
+unbound_interfacess: '["127.0.0.1"]'
+
+unbound_memory: 384

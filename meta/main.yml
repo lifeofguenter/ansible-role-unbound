@@ -1,0 +1,17 @@
+galaxy_info:
+  author: Gunter Grodotzki
+  description: install unbound
+  company: weheartwebsites UG
+  license: MIT
+  min_ansible_version: 2.0
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+  - name: Debian
+    versions:
+    - jessie
+  galaxy_tags:
+  - dns
+  - networking
+dependencies: []

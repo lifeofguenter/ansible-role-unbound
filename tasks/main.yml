@@ -1,0 +1,19 @@
+---
+
+- name: get current unbound version
+  command: /usr/sbin/unbound -h
+  register: unbound_current
+  ignore_errors: yes
+
+- include: unbound.yml
+  when: unbound_current.rc != 0 or unbound_current.stdout.find("Version {{ unbound_version }}") == -1
+
+- include: config.yml
+
+- name: check if munin-node is installed
+  command: dpkg -L munin-node
+  register: dpkg_munin_node_check
+  ignore_errors: yes
+
+- include: munin-plugin.yml
+  when: dpkg_munin_node_check.rc == 0

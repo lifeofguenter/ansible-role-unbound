@@ -1,0 +1,29 @@
+---
+
+- name: add unbound.conf
+  template:
+    src: unbound.conf.j2
+    dest: /etc/unbound/unbound.conf
+    mode: 0644
+  notify: restart_unbound
+  become: yes
+
+- name: add named.cache
+  copy:
+    src: named.cache.txt
+    dest: /var/lib/unbound/named.cache
+    mode: 0644
+  become_user: nobody
+  become: yes
+
+- name: add systemd files
+  copy:
+    src: "{{ item }}.ini"
+    dest: /lib/systemd/system/{{ item }}
+    mode: 0644
+  with_items:
+    - unbound-anchor.service
+    - unbound-anchor.timer
+    - unbound.service
+  notify: reload_systemd
+  become: yes
