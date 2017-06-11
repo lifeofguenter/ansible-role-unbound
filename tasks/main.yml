@@ -7,7 +7,7 @@
   ignore_errors: yes
 
 - include: unbound.yml
-  when: unbound_version_current.rc != 0 or not unbound_version_current.stdout | search(unbound_version_string_match)
+  when: unbound_version_current.stdout not defined or not unbound_version_current.stdout | search(unbound_version_string_match)
 
 - include: config.yml
 
