@@ -1,2 +1,3 @@
 ---
-# vars file for unbound
+
+unbound_version_string_match: "Version {{ unbound_version }}"

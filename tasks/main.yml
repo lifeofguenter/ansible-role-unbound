@@ -3,11 +3,11 @@
 # this does not work
 - name: get current unbound version
   command: /usr/sbin/unbound -h
-  register: unbound_current
+  register: unbound_version_current
   ignore_errors: yes
 
 - include: unbound.yml
-  when: unbound_current.stdout is not defined or unbound_current.stdout.find("Version {{ unbound_version }}") == -1
+  when: unbound_version_current.rc != 0 or not unbound_version_current.stdout | search(unbound_version_string_match)
 
 - include: config.yml
 
