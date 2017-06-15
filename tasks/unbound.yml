@@ -1,19 +1,6 @@
 ---
 
-- name: dependencies
-  apt:
-    name: python-mysqldb
-    cache_valid_time: 3600
-    state: present
-  with_items:
-    - libevent-2.0-5
-    - libssl1.0.0
-    - libexpat1
-  become: yes
-
-- name: Include Debian specifics
-  include: packages-debian.yml
-  when: ansible_distribution == 'Debian'
+- include: packages/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }}.yml
 
 - name: fetch .deb
   get_url:
