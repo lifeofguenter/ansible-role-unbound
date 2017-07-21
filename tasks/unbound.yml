@@ -2,13 +2,8 @@
 
 - include: packages/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }}.yml
 
-- name: fetch .deb
-  get_url:
-    url: https://ftp.weheartwebsites.de/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }}/unbound_{{ unbound_version }}-{{ unbound_build }}_amd64.deb
-    dest: /tmp/unbound_{{ unbound_version }}-{{ unbound_build }}_amd64.deb
-
 - name: install .deb
   apt:
-    deb: /tmp/unbound_{{ unbound_version }}-{{ unbound_build }}_amd64.deb
+    deb: https://ftp.weheartwebsites.de/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }}/unbound_{{ unbound_version }}-{{ unbound_build }}_amd64.deb
   notify: restart_unbound
   become: yes
