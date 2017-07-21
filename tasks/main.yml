@@ -1,5 +1,13 @@
 ---
 
+- name: install acl for ansible
+  apt:
+    name: acl
+    update_cache: yes
+    cache_valid_time: 3600
+    state: present
+  become: yes
+
 # this does not work
 - name: get current unbound version
   command: /usr/sbin/unbound -h
