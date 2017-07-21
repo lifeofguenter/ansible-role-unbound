@@ -1,8 +1,8 @@
 ---
 
-unbound_version: 1.6.3
+unbound_version: 1.6.4
 
-unbound_build: 3
+unbound_build: 4
 
 unbound_interfacess:
   - 127.0.0.1
