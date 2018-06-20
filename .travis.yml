@@ -5,6 +5,10 @@ python: "2.7"
 sudo: required
 dist: trusty
 
+branches:
+  only:
+    - master
+
 # Install ansible
 addons:
   apt:
@@ -36,7 +40,8 @@ script:
   - dig foobar-1-1-1-1.pseudo.host @127.0.0.1 -p 5353
 
 after_success:
+  - cat /etc/unbound/unbound.conf
   - /usr/sbin/unbound -h
-  
+
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
