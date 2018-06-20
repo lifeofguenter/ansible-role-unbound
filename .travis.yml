@@ -36,6 +36,7 @@ script:
   - dig foobar-1-1-1-1.pseudo.host @127.0.0.1 -p 5353
 
 after_success:
+  - cat /etc/unbound/unbound.conf
   - /usr/sbin/unbound -h
   
 notifications:

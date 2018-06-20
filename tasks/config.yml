@@ -25,7 +25,7 @@
 
 - name: add unbound.conf
   template:
-    src: unbound.conf.j2
+    src: unbound.conf
     dest: /etc/unbound/unbound.conf
     mode: 0644
   notify: restart_unbound
