@@ -11,9 +11,9 @@ _None_
 ## Role Variables
 
 ```yaml
-unbound_version: 1.8.1
+unbound_version: 1.7.3
 
-unbound_build: 7
+unbound_build: 11
 
 unbound_interfacess:
   - 127.0.0.1
