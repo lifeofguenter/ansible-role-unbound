@@ -2,13 +2,14 @@
 
 - name: install dependencies
   apt:
-    name: "{{ item }}"
+    name: "{{ packages }}"
     update_cache: yes
     cache_valid_time: 3600
     state: present
-  with_items:
-    - libevent-2.0-5
-    - libssl1.1
-    - libexpat1
-    - libsystemd0
+  vars:
+    packages:
+      - libevent-2.0-5
+      - libssl1.1
+      - libexpat1
+      - libsystemd0
   become: yes
