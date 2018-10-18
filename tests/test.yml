@@ -1,6 +1,9 @@
 ---
 
 - hosts: localhost
+
   remote_user: root
-  roles:
-    - ansible-role-unbound
+
+  tasks:
+    - import_role:
+        name: ansible-role-unbound

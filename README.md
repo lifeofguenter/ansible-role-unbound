@@ -11,7 +11,7 @@ _None_
 ## Role Variables
 
 ```yaml
-unbound_version: 1.7.2
+unbound_version: 1.8.1
 
 unbound_build: 7
 
