@@ -13,3 +13,12 @@
       - libexpat1
       - libsystemd0
   become: yes
+
+- name: install .deb
+  apt:
+    deb: https://ftp.weheartwebsites.de/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }}/unbound_{{ unbound_version }}-{{ unbound_build }}_amd64.deb
+  notify: restart_unbound
+  become: yes
+
+- import_tasks: systemd.yml
+

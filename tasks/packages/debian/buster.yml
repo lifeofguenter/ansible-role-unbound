@@ -1,0 +1,9 @@
+---
+
+- name: install unbound
+  apt:
+    name: unbound
+    update_cache: yes
+    cache_valid_time: 3600
+    state: present
+  become: yes
