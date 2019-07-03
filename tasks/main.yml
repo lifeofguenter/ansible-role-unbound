@@ -8,32 +8,14 @@
     state: present
   become: yes
 
-# this does not work
-- name: get current unbound version
-  command: /usr/sbin/unbound -h
-  register: unbound_version_current
-  ignore_errors: yes
+- include_tasks: packages/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }}.yml
 
-- include: unbound.yml
-  when: unbound_version_current.stdout is not defined or not unbound_version_current.stdout is search(unbound_version_string_match)
-
-- include: config.yml
-
-- name: check for systemd
-  command: systemctl --version
-  register: systemctl_version
-  ignore_errors: yes
-
-- include: systemd.yml
-  when: systemctl_version.rc == 0
-
-- include: sysinitv.yml
-  when: systemctl_version.rc != 0
+- import_tasks: config.yml
 
 - name: check if munin-node is installed
   command: dpkg -L munin-node
   register: dpkg_munin_node_check
   ignore_errors: yes
 
-- include: munin-plugin.yml
-  when: dpkg_munin_node_check.rc == 0
+- import_tasks: munin-plugin.yml
+  when: dpkg_munin_node_check is success
