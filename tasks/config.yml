@@ -1,26 +1,38 @@
 ---
 
-- name: create directories
+- name: add unbound user
+  user:
+    name: unbound
+    home: /var/lib/unbound
+    create_home: no
+    system: yes
+  become: yes
+
+- name: create /etc/unbound
   file:
-    path: "{{ item }}"
+    path: /etc/unbound/
     state: directory
     mode: 0755
-    owner: nobody
-    group: nogroup
-  with_items:
-    - /var/lib/unbound/
-    - /etc/unbound/
+  become: yes
+
+- name: create /var/lib/unbound/
+  file:
+    path: /var/lib/unbound/
+    state: directory
+    mode: 0755
+    owner: unbound
+    group: unbound
   become: yes
 
 - name: check if control-keys exists
   stat:
     path: /etc/unbound/unbound_control.key
   register: unbound_control_keys
+  changed_when: no
 
 - name: create control keys
   command: /usr/sbin/unbound-control-setup
-  when: unbound_control_keys.stat.exists == False
-  become_user: nobody
+  when: not unbound_control_keys.stat.exists
   become: yes
 
 - name: add unbound.conf
@@ -31,10 +43,9 @@
   notify: restart_unbound
   become: yes
 
-- name: add named.cache
-  copy:
-    src: named.cache.txt
+- name: fetch named.cache
+  get_url:
+    url: https://www.internic.net/domain/named.cache
     dest: /var/lib/unbound/named.cache
     mode: 0644
-  become_user: nobody
   become: yes
