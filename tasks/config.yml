@@ -15,6 +15,13 @@
     mode: 0755
   become: yes
 
+- name: create /etc/unbound/conf.d
+  file:
+    path: /etc/unbound/conf.d/
+    state: directory
+    mode: 0755
+  become: yes
+
 - name: create /var/lib/unbound/
   file:
     path: /var/lib/unbound/
