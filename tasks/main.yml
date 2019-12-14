@@ -8,6 +8,8 @@
     state: present
   become: yes
 
+- import_tasks: deps.yml
+
 - include_tasks: packages/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }}.yml
 
 - import_tasks: config.yml
