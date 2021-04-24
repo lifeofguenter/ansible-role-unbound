@@ -1,10 +1,12 @@
 ---
 
-dist: xenial
+dist: focal
 
 language: python
-python: "3.7"
 sudo: required
+
+env:
+  - ANSIBLE_PYTHON_INTERPRETER=/usr/bin/python3
 
 addons:
   apt:
