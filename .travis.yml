@@ -31,7 +31,8 @@ script:
   - cat /etc/unbound/*.conf
   - cat /lib/systemd/system/unbound.service
   - cat /etc/default/unbound
-  - sudo systemctl status unbound
+  - ls -lh /var/lib/unbound/
+  - sudo systemctl status -l unbound
   - /usr/sbin/unbound-checkconf
   - dig foobar-1-1-1-1.pseudo.host @127.0.0.1 -p 5353
 
