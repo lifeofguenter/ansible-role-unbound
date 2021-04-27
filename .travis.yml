@@ -27,6 +27,9 @@ script:
   - "ansible-playbook tests/test.yml -i tests/inventory --connection=local"
   - "ansible-playbook tests/test.yml -i tests/inventory --connection=local"
   - sudo journalctl -u unbound
+  - ls /etc/unbound/
+  - cat /etc/unbound/*.conf
+  - sudo unbound --help
   - /usr/sbin/unbound-checkconf
   - dig foobar-1-1-1-1.pseudo.host @127.0.0.1 -p 5353
 
