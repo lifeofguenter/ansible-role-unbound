@@ -29,7 +29,7 @@ script:
   - sudo journalctl -u unbound
   - ls -lh /etc/unbound/
   - cat /etc/unbound/*.conf
-  - sudo unbound -d -v
+  - cat /lib/systemd/system/unbound.service
   - /usr/sbin/unbound-checkconf
   - dig foobar-1-1-1-1.pseudo.host @127.0.0.1 -p 5353
 
