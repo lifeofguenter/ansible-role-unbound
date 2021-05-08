@@ -1,3 +1,3 @@
 ---
 
-unbound_version_string_match: "Version {{ unbound_version }}"
+unbound_default_release: '{{ ansible_distribution_release }}'

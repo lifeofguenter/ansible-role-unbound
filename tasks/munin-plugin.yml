@@ -4,7 +4,7 @@
   copy:
     src: unbound_munin_.sh
     dest: /usr/share/munin/plugins/unbound_munin_
-    mode: "a+x"
+    mode: a+x
   become: yes
 
 - name: enable unbound_munin_hits

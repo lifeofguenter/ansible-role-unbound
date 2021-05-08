@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/lifeofguenter/ansible-role-unbound.svg?branch=master)](https://travis-ci.org/lifeofguenter/ansible-role-unbound)
-
 # Ansible Role for unbound
+
+[![Build Status](https://travis-ci.com/lifeofguenter/ansible-role-unbound.svg?branch=master)](https://travis-ci.com/lifeofguenter/ansible-role-unbound)
 
 This ansible role will install unbound
 
@@ -11,10 +11,6 @@ _None_
 ## Role Variables
 
 ```yaml
-unbound_version: 1.7.3
-
-unbound_build: 11
-
 unbound_interfacess:
   - 127.0.0.1
 
