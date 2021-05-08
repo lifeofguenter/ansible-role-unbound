@@ -1,9 +1,8 @@
 ---
 
-dist: focal
-
-language: python
+dist: bionic
 sudo: required
+language: minimal
 
 env:
   - ANSIBLE_PYTHON_INTERPRETER=/usr/bin/python3
@@ -11,12 +10,10 @@ env:
 addons:
   apt:
     packages:
-    - dnsutils
+      - dnsutils
+      - ansible
 
 install:
-  # install ansible
-  - pip install -U ansible
-
   # Check ansible version
   - ansible --version
 
