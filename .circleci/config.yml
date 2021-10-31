@@ -1,0 +1,22 @@
+version: 2.1
+
+jobs:
+  build:
+    machine:
+      image: ubuntu-2004:202107-02
+    working_directory: ~/ansible-role-unbound/
+    environment:
+      ANSIBLE_PYTHON_INTERPRETER: /usr/bin/python3
+
+    steps:
+      - run: pip3 install ansible
+      - run: ansible --version
+
+      - checkout
+      - run: printf '[defaults]\nroles_path=../' > ansible.cfg
+      - run: ansible-playbook tests/test.yml -i tests/inventory --connection=local
+      - run: ansible-playbook tests/test.yml -i tests/inventory --connection=local
+      - run: /usr/sbin/unbound-checkconf
+      - run: dig foobar-1-1-1-1.pseudo.host @127.0.0.1 -p 5353
+      - run: cat /etc/unbound/unbound.conf
+      - run: /usr/sbin/unbound -V

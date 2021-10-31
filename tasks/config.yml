@@ -8,20 +8,6 @@
     system: yes
   become: yes
 
-- name: create /etc/unbound
-  file:
-    path: /etc/unbound/
-    state: directory
-    mode: 0755
-  become: yes
-
-- name: create /etc/unbound/conf.d
-  file:
-    path: /etc/unbound/conf.d/
-    state: directory
-    mode: 0755
-  become: yes
-
 - name: create /var/lib/unbound/
   file:
     path: /var/lib/unbound/
@@ -41,6 +27,7 @@
   command: /usr/sbin/unbound-control-setup
   when: not unbound_control_keys.stat.exists
   become: yes
+  changed_when: yes
 
 - name: add unbound.conf
   template:

@@ -1,1 +1,8 @@
 .DS_Store
+*~
+/.idea/
+/.env
+
+*.retry
+/.roles
+/ansible.cfg

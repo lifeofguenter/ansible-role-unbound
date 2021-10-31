@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.org/lifeofguenter/ansible-role-unbound.svg?branch=master)](https://travis-ci.org/lifeofguenter/ansible-role-unbound)
-
 # Ansible Role for unbound
 
-This ansible role will install unbound
+[![CircleCI](https://circleci.com/gh/lifeofguenter/ansible-role-unbound/tree/main.svg?style=svg)](https://circleci.com/gh/lifeofguenter/ansible-role-unbound/tree/main)
+
+This ansible role will install unbound.
 
 ## Requirements
 
@@ -11,10 +11,6 @@ _None_
 ## Role Variables
 
 ```yaml
-unbound_version: 1.7.3
-
-unbound_build: 11
-
 unbound_interfacess:
   - 127.0.0.1
 
