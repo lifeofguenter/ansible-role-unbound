@@ -24,6 +24,7 @@ script:
   - "ansible-playbook tests/test.yml -i tests/inventory --connection=local"
   - "ansible-playbook tests/test.yml -i tests/inventory --connection=local"
   - sudo journalctl -u unbound
+  - ls -lh /etc/unbound/unbound.conf.d/
   - cat /etc/unbound/*.conf
   - ls -lh /var/lib/unbound/
   - sudo systemctl status -l unbound
