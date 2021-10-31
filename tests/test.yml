@@ -4,6 +4,9 @@
 
   remote_user: root
 
+  vars:
+    unbound_enable_ipv6: 'no'
+
   tasks:
     - import_role:
         name: ansible-role-unbound
