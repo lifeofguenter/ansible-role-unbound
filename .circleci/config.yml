@@ -8,8 +8,7 @@ jobs:
       ANSIBLE_PYTHON_INTERPRETER: /usr/bin/python3
 
     steps:
-      - run: sudo apt-get update
-      - run: sudo apt-get install ansible
+      - run: pip3 install ansible
       - run: ansible --version
 
       - checkout
