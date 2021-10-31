@@ -19,4 +19,4 @@ jobs:
       - run: /usr/sbin/unbound-checkconf
       - run: dig foobar-1-1-1-1.pseudo.host @127.0.0.1 -p 5353
       - run: cat /etc/unbound/unbound.conf
-      - run: /usr/sbin/unbound -h
+      - run: /usr/sbin/unbound -V

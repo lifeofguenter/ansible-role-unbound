@@ -1,6 +1,6 @@
 # Ansible Role for unbound
 
-[![Build Status](https://travis-ci.com/lifeofguenter/ansible-role-unbound.svg?branch=main)](https://travis-ci.com/lifeofguenter/ansible-role-unbound)
+[![CircleCI](https://circleci.com/gh/lifeofguenter/ansible-role-unbound/tree/main.svg?style=svg)](https://circleci.com/gh/lifeofguenter/ansible-role-unbound/tree/main)
 
 This ansible role will install unbound.
 
