@@ -5,3 +5,4 @@
 
 *.retry
 /.roles
+/ansible.cfg

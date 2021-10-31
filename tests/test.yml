@@ -1,8 +1,6 @@
 ---
 
-- hosts: localhost
-
-  remote_user: root
+- hosts: all
 
   vars:
     unbound_listen_port: 5353
