@@ -1,8 +1,8 @@
 # Ansible Role for unbound
 
-[![Build Status](https://travis-ci.com/lifeofguenter/ansible-role-unbound.svg?branch=master)](https://travis-ci.com/lifeofguenter/ansible-role-unbound)
+[![Build Status](https://travis-ci.com/lifeofguenter/ansible-role-unbound.svg?branch=main)](https://travis-ci.com/lifeofguenter/ansible-role-unbound)
 
-This ansible role will install unbound
+This ansible role will install unbound.
 
 ## Requirements
 
