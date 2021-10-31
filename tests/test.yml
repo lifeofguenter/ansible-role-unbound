@@ -5,6 +5,7 @@
   remote_user: root
 
   vars:
+    unbound_listen_port: 5353
     unbound_enable_ipv6: 'no'
 
   tasks:

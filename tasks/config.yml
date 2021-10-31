@@ -43,3 +43,9 @@
     dest: /var/lib/unbound/named.cache
     mode: 0644
   become: yes
+
+- name: set daemonopts
+  ansible.builtin.copy:
+    src: unbound.default
+    dest: /etc/default/unbound
+  become: yes
