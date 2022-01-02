@@ -2,6 +2,7 @@
 
 galaxy_info:
   role_name: unbound
+  namespace: lifeofguenter
   author: Gunter Grodotzki
   description: Installs and configures unbound (dns resolver).
   license: MIT
