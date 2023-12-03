@@ -1,13 +1,13 @@
 ---
 
-- name: restart_unbound
+- name: Restart_unbound
   ansible.builtin.systemd:
     name: unbound
     state: restarted
-  become: yes
+  become: true
 
-- name: restart_munin_node
+- name: Restart_munin_node
   ansible.builtin.systemd:
     name: munin-node
     state: restarted
-  become: yes
+  become: true

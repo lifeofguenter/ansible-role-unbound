@@ -1,38 +1,38 @@
 ---
 
-- name: add munin-plugin
-  copy:
+- name: Add munin-plugin
+  ansible.builtin.copy:
     src: unbound_munin_.sh
     dest: /usr/share/munin/plugins/unbound_munin_
     mode: a+x
-  become: yes
+  become: true
 
-- name: enable unbound_munin_hits
-  file:
+- name: Enable unbound_munin_hits
+  ansible.builtin.file:
     src: /usr/share/munin/plugins/unbound_munin_
     dest: /etc/munin/plugins/unbound_munin_hits
     state: link
-  notify: restart_munin_node
-  become: yes
+  notify: Restart_munin_node
+  become: true
 
-- name: enable unbound_munin_memory
-  file:
+- name: Enable unbound_munin_memory
+  ansible.builtin.file:
     src: /usr/share/munin/plugins/unbound_munin_
     dest: /etc/munin/plugins/unbound_munin_memory
     state: link
-  notify: restart_munin_node
-  become: yes
+  notify: Restart_munin_node
+  become: true
 
-- name: enable unbound_munin_histogram
-  file:
+- name: Enable unbound_munin_histogram
+  ansible.builtin.file:
     src: /usr/share/munin/plugins/unbound_munin_
     dest: /etc/munin/plugins/unbound_munin_histogram
     state: link
-  notify: restart_munin_node
-  become: yes
+  notify: Restart_munin_node
+  become: true
 
-- name: add munin plugin-conf
-  copy:
+- name: Add munin plugin-conf
+  ansible.builtin.copy:
     content: |
       [unbound*]
       user root
@@ -42,6 +42,6 @@
       env.spoof_warn 1000
       env.spoof_crit 100000
     dest: /etc/munin/plugin-conf.d/unbound_
-    mode: 0644
-  notify: restart_munin_node
-  become: yes
+    mode: '0644'
+  notify: Restart_munin_node
+  become: true

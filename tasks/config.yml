@@ -1,45 +1,45 @@
 ---
 
-- name: add unbound user
-  user:
+- name: Add unbound user
+  ansible.builtin.user:
     name: unbound
     home: /var/lib/unbound
-    create_home: no
-    system: yes
-  become: yes
+    create_home: false
+    system: true
+  become: true
 
-- name: create /var/lib/unbound/
-  file:
+- name: Create /var/lib/unbound/
+  ansible.builtin.file:
     path: /var/lib/unbound/
     state: directory
-    mode: 0755
+    mode: '0755'
     owner: unbound
     group: unbound
-  become: yes
+  become: true
 
-- name: check if control-keys exists
-  stat:
+- name: Check if control-keys exists
+  ansible.builtin.stat:
     path: /etc/unbound/unbound_control.key
   register: unbound_control_keys
-  changed_when: no
+  changed_when: false
 
-- name: create control keys
-  command: /usr/sbin/unbound-control-setup
+- name: Create control keys
+  ansible.builtin.command: /usr/sbin/unbound-control-setup
   when: not unbound_control_keys.stat.exists
-  become: yes
-  changed_when: yes
+  become: true
+  changed_when: true
 
-- name: add unbound.conf
-  template:
+- name: Add unbound.conf
+  ansible.builtin.template:
     src: unbound.conf
     dest: /etc/unbound/unbound.conf
-    mode: 0644
-  notify: restart_unbound
-  become: yes
+    mode: '0644'
+  notify: Restart_unbound
+  become: true
 
-- name: fetch named.cache
-  get_url:
+- name: Fetch named.cache
+  ansible.builtin.get_url:
     url: https://www.internic.net/domain/named.cache
     dest: /var/lib/unbound/named.cache
-    mode: 0644
-  become: yes
+    mode: '0644'
+  become: true
