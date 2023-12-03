@@ -1,8 +1,5 @@
 ---
 
-- name: Import backports.yml
-  ansible.builtin.import_tasks: backports.yml
-
 - name: Import deps.yml
   ansible.builtin.import_tasks: deps.yml
 
