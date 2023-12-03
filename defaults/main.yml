@@ -22,6 +22,5 @@ unbound_enable_ipv6: 'yes'
 unbound_default_release: '{{ ansible_distribution_release }}'
 
 unbound_modules:
-  - subnetcache
   - validator
   - iterator
