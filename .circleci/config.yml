@@ -19,6 +19,9 @@ jobs:
       - run: ansible-playbook tests/test.yml -i tests/inventory --connection=local
       - run: ansible-playbook tests/test.yml -i tests/inventory --connection=local
       - run: /usr/sbin/unbound-checkconf
+      - run:
+          command: sudo cat /etc/unbound/unbound.conf
+          when: on_fail
       - run: dig lifeofguenter.de @127.0.0.1 -p 5353
       - run: cat /etc/unbound/unbound.conf
       - run: /usr/sbin/unbound -V
