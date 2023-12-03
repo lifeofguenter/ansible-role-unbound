@@ -1,9 +1,9 @@
 ---
 
-- name: install unbound
+- name: Install unbound
   ansible.builtin.apt:
     name: unbound
     default_release: '{{ unbound_default_release }}'
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600
-  become: yes
+  become: true
