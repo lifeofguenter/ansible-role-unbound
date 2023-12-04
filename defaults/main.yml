@@ -20,3 +20,8 @@ unbound_udp_buffer: 4m
 unbound_enable_ipv6: 'yes'
 
 unbound_default_release: '{{ ansible_distribution_release }}'
+
+unbound_modules:
+  - subnetcache
+  - validator
+  - iterator
