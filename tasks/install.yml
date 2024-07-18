@@ -2,8 +2,17 @@
 
 - name: Install unbound
   ansible.builtin.apt:
-    name: unbound
+    name:
+      - unbound
+      - unbound-anchor
     default_release: '{{ unbound_default_release }}'
+    update_cache: true
+    cache_valid_time: 3600
+  become: true
+
+- name: Install dns-root-data
+  ansible.builtin.apt:
+    name: dns-root-data
     update_cache: true
     cache_valid_time: 3600
   become: true
