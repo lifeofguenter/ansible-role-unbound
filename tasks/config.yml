@@ -37,9 +37,18 @@
   notify: Restart_unbound
   become: true
 
+- name: Check named.cache age
+  ansible.builtin.stat:
+    path: /var/lib/unbound/named.cache
+  register: unbound_named_cache
+  changed_when: false
+
 - name: Fetch named.cache
   ansible.builtin.get_url:
     url: https://www.internic.net/domain/named.cache
     dest: /var/lib/unbound/named.cache
     mode: '0644'
+  when: >-
+    not unbound_named_cache.stat.exists
+    or (ansible_facts.date_time.epoch | int) - (unbound_named_cache.stat.mtime | int) > 7776000
   become: true

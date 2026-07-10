@@ -27,3 +27,25 @@ unbound_modules:
   - subnetcache
   - validator
   - iterator
+
+# Keep probing hosts that are marked down instead of caching them as
+# unreachable for the full TTL. Improves resilience when upstreams flap.
+unbound_infra_keep_probing: 'yes'
+
+# List of domains for which DNSSEC validation is disabled (domain-insecure).
+unbound_domain_insecure: []
+
+# List of RPZ (Response Policy Zone) block lists. Each item is a mapping:
+#   name:                (required) unique zone name
+#   url:                 (optional) http(s) source to fetch the zone from
+#   zonefile:            (optional) local path to store/read the zone
+#   rpz_action_override: (optional) e.g. nxdomain, nodata, drop, disabled
+# Defining any RPZ zone automatically loads the "respip" module.
+unbound_rpz_zones: []
+
+# List of forward zones. Each item is a mapping:
+#   name:  (required) zone name, e.g. "." or "internal.example.com"
+#   addrs: (required) list of forward-addr entries. If any address contains
+#          a '#' (DNS-over-TLS auth name, e.g. 1.1.1.1@853#cloudflare-dns.com)
+#          then forward-tls-upstream is enabled for that zone.
+unbound_forward_zones: []
