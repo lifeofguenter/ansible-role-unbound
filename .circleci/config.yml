@@ -6,7 +6,7 @@ jobs:
       # https://circleci.com/docs/reference/configuration-reference/#machine
       # https://circleci.com/developer/machine/image/ubuntu-2404
       image: ubuntu-2404:2026.05.1
-    resource_class: small
+    resource_class: large
     working_directory: ~/ansible-role-unbound/
     environment:
       ANSIBLE_PYTHON_INTERPRETER: /usr/bin/python3
