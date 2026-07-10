@@ -39,7 +39,9 @@ unbound_domain_insecure: []
 #   name:                (required) unique zone name
 #   url:                 (optional) http(s) source to fetch the zone from
 #   zonefile:            (optional) local path to store/read the zone
-#   rpz_action_override: (optional) e.g. nxdomain, nodata, drop, disabled
+#   action_override:     (optional) e.g. nxdomain, nodata, drop, disabled
+#   log:                 (optional) 'yes' to log all applied RPZ actions
+#   log_name:            (optional) string to include in the RPZ log line
 # Defining any RPZ zone automatically loads the "respip" module.
 unbound_rpz_zones: []
 

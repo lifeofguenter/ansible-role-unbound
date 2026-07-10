@@ -18,7 +18,7 @@ unbound_listen_port: 53
 
 unbound_memory: 384
 
-unbound_num_threads: "{{ ansible_processor_vcpus }}"
+unbound_num_threads: "{{ ansible_facts.processor_vcpus }}"
 
 unbound_access_control:
   - 127.0.0.0/8 allow
@@ -50,8 +50,13 @@ unbound_rpz_zones:
   - name: urlhaus
     url: https://urlhaus.abuse.ch/downloads/rpz/
     zonefile: /var/lib/unbound/rpz-urlhaus.zone
-    rpz_action_override: nxdomain
+    action_override: nxdomain
+    log: 'yes'
+    log_name: urlhaus
 ```
+
+Supported per-zone keys: `name` (required), `url`, `zonefile`,
+`action_override`, `log`, `log_name`.
 
 ### Forward zones
 
