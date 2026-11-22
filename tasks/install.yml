@@ -1,18 +1,21 @@
 ---
 
+# Before unbound: on a host with resolvconf the package points resolv.conf at
+# 127.0.0.1 as soon as it is installed, and its service does not start without
+# dns-root-data's trust anchor. Afterwards it can no longer be downloaded.
+- name: Install dns-root-data
+  ansible.builtin.apt:
+    name: dns-root-data
+    update_cache: true
+    cache_valid_time: 3600
+  become: true
+
 - name: Install unbound
   ansible.builtin.apt:
     name:
       - unbound
       - unbound-anchor
     default_release: '{{ unbound_default_release }}'
-    update_cache: true
-    cache_valid_time: 3600
-  become: true
-
-- name: Install dns-root-data
-  ansible.builtin.apt:
-    name: dns-root-data
     update_cache: true
     cache_valid_time: 3600
   become: true
